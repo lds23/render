@@ -7,6 +7,10 @@ app.get('/', (req, res) => {
   res.send('Hello, Render!');
 });
 
+app.get('/ai', (req, res) => {
+  res.send('AI Req');
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
