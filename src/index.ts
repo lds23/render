@@ -3,10 +3,19 @@ import { OpenAI } from "openai";
 
 import express, { Request, Response, NextFunction } from 'express';
 
-const sysPrompt = `### SETUP
-To gra. Jesteś operatorem drona i poruszasz się po mapie (opis w sekcji MAPA). Przeanalizuj dokładnie otrzymaną instrukcję. Uważaj: wydający instrukcje może zmieniać zdanie. Bierz pod uwagę tylko ostatnią podaną instrukcję. Po wykonaniu instrukcji podaj co znajduje się na polu, na które doleciałeś.
+const sysPrompt = `### RULES
+Rozwiąż to zadanie, stosując logikę krok po kroku. Podaj wynik dopiero po zakończeniu wszystkich kroków:
+1. Zidentyfikuj problem.
+2. Rozważ dostępne opcje.
+3. Wybierz najlepsze rozwiązanie i podaj odpowiedź.
 
-### MAPA 
+### SETUP
+To gra. Jesteś operatorem drona i poruszasz się po mapie (opis w sekcji MAP). Przeanalizuj dokładnie otrzymaną instrukcję. Jeśli wydający instrukcje zmienił zdanie zignoruj poprzednie instrukcje. Po wykonaniu komend z instrukcji podaj co znajduje się na polu, na które doleciałeś.
+- Instrukcja W PRAWO/W LEWO oznacza zmianę zmiennej x o 1. W PRAWO +1, w LEWO -1
+- Instrukcja w W DÓŁ/W GÓRĘ oznacza zmianę zmiennej y. W DÓŁ +1, W GÓRĘ -1
+- Instrukcje: MAKSYMALNIE, NA MAKSA, DO KOŃCA oznaczają zmianę na przesunięcie do granic mapy na 0 lub 3 
+
+### MAP 
 Pola opisane współrzędnymi [x,y]. [0,0] to lewy górny róg. [3,3] to prawy dolny róg.
 Startujesz zawsze z pola [0,0]
 [0,0] - start
@@ -29,7 +38,15 @@ Startujesz zawsze z pola [0,0]
 [3,2] - dwa drzewa
 [3,3] - jaskinia
 
+### EXAMPLES
+Q: Idziemy na sam dół mapy.
+A: { "description" : "dom budynek"}
+
+Q: Idziemy na sam dół mapy. Albo nie! nie! nie idziemy. Zaczynamy od nowa. W prawo maksymalnie idziemy. Co my tam mamy?
+A: { "description" : "góry skały"}
+
 ### RESULT
+Wypisz swoj tok rozumowania.
 Zwróć wynik w formacie JSON. Zwróć odpowiedź bez zbędnych komentarzy i formatowanie. Nie escape'uj.
 Wynik to maksymalnie 2 słowa.
 {
@@ -54,8 +71,10 @@ app.post('/ai', async(req: Request, res: Response, next: NextFunction) => {
 
   const resp = await getAIresp(question, sysPrompt);
   console.log('a: ' + resp);
+  const finalResp = getLast3Lines(resp);
+  console.log('fa: ' + finalResp);
 
-  res.send(resp);
+  res.send(finalResp);
 });
 
 // Start the server
@@ -65,6 +84,11 @@ app.listen(PORT, () => {
 
 dotenv.config();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY, });
+
+function getLast3Lines(text: string): string {
+  const lines = text.split(/\r?\n/);
+  return lines[lines.length - 3] + '\n' + lines[lines.length - 2] + '\n' + lines[lines.length - 1];
+}
 
 async function getAIresp(prompt: string, sysCommand: string): Promise<string> {
     const aiResp = await openai.chat.completions.create({
