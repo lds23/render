@@ -43,7 +43,7 @@ const PORT = process.env.PORT || 3000;
 
 // Define a route with properly typed parameters
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
-  res.send('Hello, TypeScript with Express!');
+  res.send('Up!');
 });
 
 app.post('/ai', async(req: Request, res: Response, next: NextFunction) => {
