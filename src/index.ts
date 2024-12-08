@@ -4,6 +4,7 @@ import { OpenAI } from "openai";
 import express, { Request, Response, NextFunction } from 'express';
 
 const app = express();
+app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
@@ -12,13 +13,22 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
   res.send('Hello, TypeScript with Express!');
 });
 
-app.get('/ai', async(req: Request, res: Response, next: NextFunction) => {
+app.post('/ai', async(req: Request, res: Response, next: NextFunction) => {
+
+  const question = req.body;
+  console.log('q: ' + question["instruction"]);
 
   //const resp = await getAIresp('grzyby', 'opowiedz dowcip na podany temat');
 
   //res.send('ai : ' + resp);
   res.send('ai : ???');
 });
+
+/*
+{
+"instruction":"tutaj instrukcja gdzie poleciał dron"
+}
+*/
 
 // Start the server
 app.listen(PORT, () => {
