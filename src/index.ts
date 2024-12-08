@@ -14,9 +14,10 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 
 app.get('/ai', async(req: Request, res: Response, next: NextFunction) => {
 
-  const resp = await getAIresp('grzyby', 'opowiedz dowcip na podany temat');
+  //const resp = await getAIresp('grzyby', 'opowiedz dowcip na podany temat');
 
-  res.send('ai : ' + resp);
+  //res.send('ai : ' + resp);
+  res.send('ai : ???');
 });
 
 // Start the server
