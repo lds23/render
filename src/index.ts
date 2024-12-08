@@ -12,8 +12,11 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
   res.send('Hello, TypeScript with Express!');
 });
 
-app.get('/ai', (req: Request, res: Response, next: NextFunction) => {
-  res.send('AI');
+app.get('/ai', async(req: Request, res: Response, next: NextFunction) => {
+
+  const resp = await getAIresp('grzyby', 'opowiedz dowcip na podany temat');
+
+  res.send('ai : ' + resp);
 });
 
 // Start the server
