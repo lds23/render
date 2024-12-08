@@ -3,6 +3,35 @@ import { OpenAI } from "openai";
 
 import express, { Request, Response, NextFunction } from 'express';
 
+const sysPrompt = `### SETUP
+To gra. Jesteś operatorem drona i poruszasz się po mapie (opis w sekcji MAPA). Przeanalizuj dokładnie otrzymaną instrukcję. Uważaj: wydający instrukcje może zmieniać zdanie. Bierz pod uwagę tylko ostatnią podaną instrukcję. Po wykonaniu instrukcji podaj co znajduje się na polu, na które doleciałeś.
+
+### MAPA 
+Pola opisane współrzędnymi [x,y]. [0,0] to lewy górny róg. [3,3] to prawy dolny róg.
+Startujesz zawsze z pola [0,0]
+[0,0] - start
+[0,1] - łąka trawa
+[0,2] - łąka trawa
+[0,3] - góry skały
+
+[1,0] - łąka trawa
+[1,1] - wiatrak
+[1,2] - łąka trawa
+[1,3] - góry skały
+
+[2,0] - łąka drzewo
+[2,1] - łąka trawa
+[2,2] - skały woda
+[2,3] - samochód auto
+
+[3,0] - dom budynek
+[3,1] - łąka trawa
+[3,2] - dwa drzewa
+[3,3] - jaskinia
+
+### RESULT
+zwróc odpowiedź bez zbędnych komentarzy, maksymalnie 2 słowa`;
+
 const app = express();
 app.use(express.json());
 
@@ -15,20 +44,15 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 
 app.post('/ai', async(req: Request, res: Response, next: NextFunction) => {
 
-  const question = req.body;
-  console.log('q: ' + question["instruction"]);
+  const q = req.body;
+  const question = q["instruction"];
+  console.log('q: ' + question);
 
-  //const resp = await getAIresp('grzyby', 'opowiedz dowcip na podany temat');
+  const resp = await getAIresp(question, sysPrompt);
+  console.log('a: ' + resp);
 
-  //res.send('ai : ' + resp);
-  res.send('ai : ???');
+  res.send(resp);
 });
-
-/*
-{
-"instruction":"tutaj instrukcja gdzie poleciał dron"
-}
-*/
 
 // Start the server
 app.listen(PORT, () => {
