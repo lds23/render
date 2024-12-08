@@ -1,0 +1,30 @@
+# Logs
+logs/
+*.log
+
+# Dependency directories
+node_modules/
+
+# Environment files
+.env
+
+# Build output
+dist/
+build/
+
+# OS-specific files
+.DS_Store       # macOS
+Thumbs.db       # Windows
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.sublime-project
+*.sublime-workspace
+
+# Debugger files
+*.pid
+
+# Temporary files
+*.tmp
