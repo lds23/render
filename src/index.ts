@@ -46,12 +46,8 @@ Q: Idziemy na sam dół mapy. Albo nie! nie! nie idziemy. Zaczynamy od nowa. W p
 A: { "description" : "góry skały"}
 
 ### RESULT
-Wypisz swoj tok rozumowania.
-Zwróć wynik w formacie JSON. Zwróć odpowiedź bez zbędnych komentarzy i formatowanie. Nie escape'uj.
-Wynik to maksymalnie 2 słowa.
-{
-"description" : "wynik"
-}`;
+Wypisz swoj tok rozumowania. Wynik to maksymalnie 2 słowa.
+Zwróć odpowiedź bez zbędnych komentarzy i formatowanie po nowej linii.`;
 
 const app = express();
 app.use(express.json());
@@ -71,10 +67,9 @@ app.post('/ai', async(req: Request, res: Response, next: NextFunction) => {
 
   const resp = await getAIresp(question, sysPrompt);
   console.log('a: ' + resp);
-  const finalResp = getLast3Lines(resp);
+  const finalResp = getLastLine(resp);
   console.log('fa: ' + finalResp);
-
-  res.send(finalResp);
+  res.send( { "description" : finalResp } );
 });
 
 // Start the server
@@ -85,9 +80,9 @@ app.listen(PORT, () => {
 dotenv.config();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY, });
 
-function getLast3Lines(text: string): string {
+function getLastLine(text: string): string {
   const lines = text.split(/\r?\n/);
-  return lines[lines.length - 3] + '\n' + lines[lines.length - 2] + '\n' + lines[lines.length - 1];
+  return lines[lines.length - 1];
 }
 
 async function getAIresp(prompt: string, sysCommand: string): Promise<string> {
