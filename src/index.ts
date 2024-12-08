@@ -30,7 +30,11 @@ Startujesz zawsze z pola [0,0]
 [3,3] - jaskinia
 
 ### RESULT
-zwróc odpowiedź bez zbędnych komentarzy, maksymalnie 2 słowa`;
+Zwróć wynik w formacie JSON. Zwróć odpowiedź bez zbędnych komentarzy i formatowanie. Nie escape'uj.
+Wynik to maksymalnie 2 słowa.
+{
+"description" : "wynik"
+}`;
 
 const app = express();
 app.use(express.json());
