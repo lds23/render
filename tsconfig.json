@@ -6,7 +6,8 @@
     "rootDir": "./src",                // Directory for source files
     "strict": true,                    // Enable strict type-checking
     "esModuleInterop": true,           // Allow default imports for CommonJS
-    "moduleResolution": "node"         // Resolve modules as Node.js does
+    "moduleResolution": "node",         // Resolve modules as Node.js does
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts"],          // Include all .ts files in src/
   "exclude": ["node_modules"]          // Exclude dependencies
