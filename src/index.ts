@@ -12,6 +12,10 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
   res.send('Hello, TypeScript with Express!');
 });
 
+app.get('/ai', (req: Request, res: Response, next: NextFunction) => {
+  res.send('AI');
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
