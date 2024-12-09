@@ -61,15 +61,16 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 
 app.post('/ai', async(req: Request, res: Response, next: NextFunction) => {
 
-  const q = req.body;
-  const question = q["instruction"];
-  console.log('q: ' + question);
+  // const q = req.body;
+  // const question = q["instruction"];
+  // console.log('q: ' + question);
 
-  const resp = await getAIresp(question, sysPrompt);
-  console.log('a: ' + resp);
-  const finalResp = getLastLine(resp);
-  console.log('fa: ' + finalResp);
-  res.send( { "description" : finalResp } );
+  // const resp = await getAIresp(question, sysPrompt);
+  // console.log('a: ' + resp);
+  // const finalResp = getLastLine(resp);
+  // console.log('fa: ' + finalResp);
+  // res.send( { "description" : finalResp } );
+  res.send( { "description" : "fake resp" } );
 });
 
 // Start the server
