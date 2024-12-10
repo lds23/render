@@ -63,6 +63,12 @@ app.post('/ai', async(req: Request, res: Response, next: NextFunction) => {
 
   const q = req.body;
   console.log(req.body);
+  if(req.body.includes('POMIDOR')) {
+    res.send( { "answer" : "POMIDOR" } );  
+  } else {
+    res.send( { "answer" : "fake resp" } );
+  }
+
   // const question = q["instruction"];
   // console.log('q: ' + question);
 
@@ -71,7 +77,6 @@ app.post('/ai', async(req: Request, res: Response, next: NextFunction) => {
   // const finalResp = getLastLine(resp);
   // console.log('fa: ' + finalResp);
   // res.send( { "description" : finalResp } );
-  res.send( { "answer" : "fake resp" } );
 });
 
 // Start the server
