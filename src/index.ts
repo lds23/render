@@ -64,7 +64,7 @@ app.post('/ai', async(req: Request, res: Response, next: NextFunction) => {
   const q = req.body;
   console.log(q);
   if(q["question"].includes('POMIDOR')) {
-    res.send( { "answer" : "NIE" } );  
+    res.send( { "answer" : "TAK" } );  
   } else {
     res.send( { "answer" : "fake resp" } );
   }
