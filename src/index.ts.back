@@ -61,8 +61,7 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 
 app.post('/ai', async(req: Request, res: Response, next: NextFunction) => {
 
-  const q = req.body;
-  console.log(req.body);
+  // const q = req.body;
   // const question = q["instruction"];
   // console.log('q: ' + question);
 
@@ -71,7 +70,7 @@ app.post('/ai', async(req: Request, res: Response, next: NextFunction) => {
   // const finalResp = getLastLine(resp);
   // console.log('fa: ' + finalResp);
   // res.send( { "description" : finalResp } );
-  res.send( { "answer" : "fake resp" } );
+  res.send( { "description" : "fake resp" } );
 });
 
 // Start the server
